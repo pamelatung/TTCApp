@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TTC And Weather App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/favicon.ico">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 class="announce"></h1>
+      
+      <h3 class="advice" id="weather"></h3>
+
+      <h2 id="page-title">Check to see what TTC options are near you:</h2>
+
+      <form class="inputBox">
+        <label for="street1">STREET #1:</label>
+        <input type="text" id="street1" placeholder="Intersecting Street 1"> 
+        <label for ="street2">STREET #2:</label>
+        <input type="text" id="street2" placeholder="Intersecting Street 2">
+        <input type="submit" text="submit" class="button">
+      </form>
+      
+    </div>
+  </header>
+
+  <main>
+    <div class="container" id="schedule">
+  </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+  <script src="ttc.js"></script>
+</body>
+</html>
