@@ -42,46 +42,67 @@ ttcApp.getVehicle = function(street1, street2) {
 
 ttcApp.weatherConditions = function(response) {
 	var tempData = response.current_observation;
+	var weather = tempData.weather;
 	console.log(tempData);
 
-	// Weather announcement conditional statements
-	if (tempData.weather === "Clear" || tempData.weather === "Sunny") {
+	var drizzle = /drizzle/;
+	var rain = /rain/;
+	var thunderstorms = /thunderstorms/;
+	var snow = /snow/;
+	var ice = /ice/;
+	var fog = /fog/;
+	var hail = /hail/;
+	var freezing = /freezing/;
+	var overcast = /overcast/;
 
+	// Weather announcement conditional statements
+	if (weather === "Clear") {
 		$('h1.announce').html('It is a beautiful sunny day');
 		$('body').css('background', 'url(images/backgrounds/sunny-3.jpg)');
 
-	} else if (tempData.weather === "Partly Cloudy" || tempData.weather === "Mostly Sunny" || tempData.weather === "Scattered Clouds") {
-
+	} else if (weather === "Partly Cloudy" || weather === "Scattered Clouds") {
 		$('h1.announce').html('There are some clouds in the sky but you can still see the sun');
 		$('body').css('background', 'url(images/backgrounds/part-cloud.jpg)');
 
-	} else if (tempData.weather === "Mostly Cloudy" || tempData.weather === "Partly Sunny") {
-
-		$('h1.announce').html('The sky is mostly cloudy with a little sun');
+	} else if (weather === "Mostly Cloudy") {
+		$('h1.announce').html('It is ' + weather + ' with a little sun');
 		$('body').css('background', 'url(images/backgrounds/part-cloud.jpg)');
 
-	}	else if (tempData.weather === "Cloudy" || tempData.weather === "Overcast") {
-
-		$('h1.announce').html('It is ' + tempData.weather + ' outside');
+	}	else if (weather === "Cloudy") {
+		$('h1.announce').html('It is ' + weather + ' outside');
 		$('body').css('background', 'url(images/backgrounds/cloudy.jpg)');
 
-	} else if (tempData.weather === "Rain" || tempData.weather === "Thunderstorms") {
+	} else if (overcast) {
+		$('h1.announce').html('It is ' + weather + ' outside');
+		$('body').css('background', 'url(images/backgrounds/cloudy.jpg)');
 
-		$('h1.announce').html('The forecast shows that there will be ' + tempData.weather + ' today');
-		$('h3.advice').html('Do not leave home without an umbrella');
+	} else if (drizzle) {
+		$('h1.announce').html('There is some ' + weather + ' outside');
 		$('body').css('background', 'url(images/backgrounds/rain.jpg)');
 
-	} else if(tempData.weather === "Snow" || tempData.weather === "Flurries" || tempData.weather === "Hail" || tempData.weather === "Sleet") {
+	} else if (fog || weather === 'Haze' || weather === 'Mist') {
+		$('h1.announce').html('There is ' + weather + ' outside so pay attention to traffic');
+		$('body').css('background', 'url(images/backgrounds/rain.jpg)');
 
-		$('h1.announce').html('The forecast shows that there will be ' + tempData.weather + ' today');
-		$('h3.advice').html('Be careful on the roads, and stay warm');
+	} else if (rain) {
+		$('h1.announce').html('The forecast says there will be ' + weather + ' today');
+		$('body').css('background', 'url(images/backgrounds/rain.jpg)');
+
+	} else if (thunderstorms) {
+		$('h1.announce').html('There will be ' + weather + ' today so bring an umbrella');
+		$('body').css('background', 'url(images/backgrounds/rain.jpg)');
+
+	} else if (snow || weather === 'Squalls') {	
+		$('h1.announce').html('There will be ' + weather + ' today so stay warm');
+		$('body').css('background', 'url(images/backgrounds/snow.jpg)');
+
+	} else if (ice || freezing || hail) {
+		$('h1.announce').html('There will be ' + weather + ' today so be careful on the roads');
 		$('body').css('background', 'url(images/backgrounds/snow.jpg)');
 
 	} else {
-
-		$('h1.announce').html('Take a look outside your window to see the weather');
+		$('h1.announce').html('Take a look outside your window');
 		$('body').css('background', 'url(images/backgrounds/sunny-3.jpg)');
-
 	}; // END weather announcement
 
 	// Weather statistics
@@ -141,7 +162,10 @@ ttcApp.animate = function(data) {
 	$('.piece').on('click', function() {
 		var storeTime = $(this).find('.time').text();
 		console.log(storeTime);
-		$(this).animate({  });
+
+		var timeCatch = $('<p>').text('You have ' + storeTime + ' minutes. Run for it!').fadeIn('slow').delay(800).fadeOut('slow');
+		$('#runForIt').append(timeCatch);
+
 		$(this).animate({ opacity: '0' }, 1000);
 		$(this).children('.tri1, .tri2, .tri3, .tri4, .tri5, .tri6, .tri7, .tri8, .tri9, .tri10, .tri11').show();
 		$(this).children('.tri1').animate({ top:'-800px', left: '-800px' },2400);
