@@ -2,6 +2,9 @@ var ttcApp = {};
 
 var timeSort = [];
 
+ttcApp.timeArrive = {};
+ttcApp.pieceTime = {};
+
 ttcApp.init = function() {
 	$('form.inputBox').on('submit', function(e) {
 		e.preventDefault();
@@ -118,14 +121,17 @@ ttcApp.parseData = function(data) {
 
 		var distanceNum = Math.round(piece.distance);
 		var velocityNum = Math.round(piece.velocity);
-		piece.eta = ((piece.distance / piece.velocity) * 0.06).toFixed(2);
-		// timeSort.push(timeNum);
+		var timeNum = ((piece.distance / piece.velocity) * 0.06).toFixed(2);
+		timeSort.push(timeNum);
 
 		var vehicle = $('<h3>').text(piece.long_name);
 		var distance = $('<p>').addClass('ttcInfo').text('Distance from you: ' + distanceNum + ' m');
 		var velocity = $('<p>').addClass('ttcInfo').text('Speed: ' + velocityNum + ' km/h');
-		var time = $('<p>').addClass('ttcInfo').text('Arrival: ' + piece.eta + ' minutes');
-		var info = $('<div>').addClass('piece').append(vehicle, distance, velocity, time);
+		var timeIntro = $('<span>').addClass('ttcInfo').text('Time until arrival: ');			// Time statement
+		var timeActual = $('<span>').addClass('time').text(ttcApp.timeArrive + ' minutes.');		// ttcApp.timeArrive, also to be used later in animation function
+		var timeTogether = $('<p>').addClass('ttcInfo').append(timeIntro, timeActual);					// Append statement & time
+		// console.log(ttcApp.timeArrive);
+		var info = $('<div>').addClass('piece').append(vehicle, distance, velocity, timeTogether);
 
 		var tri1 = $('<div>').addClass('tri1');
 		var tri2 = $('<div>').addClass('tri2');
@@ -153,14 +159,19 @@ ttcApp.parseData = function(data) {
 		}; // END CONDITIONAL STATEMENTS - VEHICLE TYPE
 	}); // end each loop
 
-	// timeSort.sort(function(a,b) { return a - b });
-	console.log(data);
+	timeSort.sort(function(a,b) { return a - b });
+	console.log(timeSort);
 
 }; // end .parseData function
 
 
 ttcApp.animate = function(data) {
 	$('.piece').on('click', function() {
+
+		var storeTime = $(this).find('.time').text();
+
+		var timeCatch = $('<p>').text('You have ' + storeTime + ' minutes. Run for it!').fadeIn('slow').delay(800).fadeOut('slow');
+		// $('#runForIt').append(timeCatch);
 
 		$(this).animate({ opacity: '0' }, 1000);
 		$(this).children('.tri1, .tri2, .tri3, .tri4, .tri5, .tri6, .tri7, .tri8, .tri9, .tri10, .tri11').show();

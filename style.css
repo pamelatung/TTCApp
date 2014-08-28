@@ -107,6 +107,7 @@ input.button {
   height: 175px;
   margin: 1%;
   padding: 0 10px;
+  background: rgba(255,255,255,0.4);
   border: 1px dashed #666;
   border-radius: 10px;
   -webkit-transition: all 0.5s;
