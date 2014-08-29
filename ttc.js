@@ -112,20 +112,59 @@ ttcApp.weatherConditions = function(response) {
 	$('#weather').append(weather, temp_c, temp_feels, humidity);
 }; // END .weatherConditions function
 
+
+// ADDS TIME PROPERTY TO EACH OBJECT
+ttcApp.timeProp = function(data) {
+	$.each(data, function(i, piece) {
+		piece.eta = ((piece.distance / piece.velocity) * 0.06).toFixed(2);
+	});
+		// var sorted = sort('eta', data);
+		ttcApp.sortResults('eta', data);
+}
+
+ttcApp.distanceProp = function(data) {
+	$.each(data, function(i, piece) {
+		piece.distanceNum = Math.round(piece.distance);
+	});
+
+	ttcApp.sortResults('distance', data);
+}
+
+// FUNCTION CODE TO SORT THE TIME (CALLED IN ttcApp.timeProp)
+ttcApp.sortResults = function (prop, arr) {
+    prop = prop.split('.');
+    var len = prop.length;
+
+    arr.sort(function (a, b) {
+        var i = 0;
+        while( i < len ) { a = a[prop[i]]; b = b[prop[i]]; i++; }
+        if (a > b) {
+            return -1;
+        } else if (a < b) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    return arr;
+};
+
 ttcApp.parseData = function(data) {
-	console.log(data);
+	// console.log(data);
+	// ttcApp.distanceProp(data); // calling the time/sort function
+	ttcApp.timeProp(data);
+	console.log(data); // logging the ttc data following timeProp function
+
 	$.each(data, function(i, piece) {
 
 		var distanceNum = Math.round(piece.distance);
 		var velocityNum = Math.round(piece.velocity);
-		piece.eta = ((piece.distance / piece.velocity) * 0.06).toFixed(2);
-		// timeSort.push(timeNum);
 
 		var vehicle = $('<h3>').text(piece.long_name);
 		var distance = $('<p>').addClass('ttcInfo').text('Distance from you: ' + distanceNum + ' m');
 		var velocity = $('<p>').addClass('ttcInfo').text('Speed: ' + velocityNum + ' km/h');
 		var time = $('<p>').addClass('ttcInfo').text('Arrival: ' + piece.eta + ' minutes');
-		var info = $('<div>').addClass('piece').append(vehicle, distance, velocity, time);
+		var info = $('<div>').addClass('piece').append(vehicle, time, distance, velocity);
 
 		var tri1 = $('<div>').addClass('tri1');
 		var tri2 = $('<div>').addClass('tri2');
@@ -152,9 +191,6 @@ ttcApp.parseData = function(data) {
 			$('.piece').addClass('bus');
 		}; // END CONDITIONAL STATEMENTS - VEHICLE TYPE
 	}); // end each loop
-
-	// timeSort.sort(function(a,b) { return a - b });
-	console.log(data);
 
 }; // end .parseData function
 
