@@ -11,6 +11,14 @@
   box-sizing: border-box;
 }
 
+.clearfix:after {
+   content: " ";
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
 body {
   font-family: "Helvetica Neue", "Arial", sans-serif;
   font-size: 14px;
@@ -29,7 +37,7 @@ main {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 25px 50px;
+  padding: 10px 50px;
   /*overflow: hidden;*/
 }
 
@@ -99,6 +107,11 @@ input.button {
   outline: none;
 }
 
+h4 { font-size: 20px;
+  font-weight: 200;
+  margin: 20px 10px 0 10px;
+}
+
 /* INFO PANELS WHERE ALL INFORMATION GOES */
 .piece {
   float: left;
@@ -114,6 +127,9 @@ input.button {
   color: #333;
   /*overflow: hidden;*/
   /*clear: both;*/
+}
+.piece:hover {
+  cursor: pointer;
 }
 
 .piece.streetcar {
@@ -229,6 +245,7 @@ input.button {
   background: url(images/tri-11.png);
 }
 
+/* OLD - DISPLAY TEXT */
 #runForIt {
   position: absolute;
   top: 100px;
@@ -237,5 +254,115 @@ input.button {
   color:red;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+/*=====================================
+TABLET MEDIA QUERY MAX WIDTH 1024px
+=======================================*/
+
+@media (max-width: 1024px) {
+
+  #schedule {
+    padding: 0 20px;
+    overflow-x: hidden;
+  }
+  
+}
+
+/*=====================================
+MOBILE MEDIA QUERY MAX WIDTH 400px
+=======================================*/
+
+@media (max-width: 400px) {
+
+  .container {
+    width: 100%;
+    padding: 50px 0 0 0;
+  }
+
+  h1 {
+    font-size: 60px;
+    text-shadow: -1px 1px 0 rgba(255,255,255,0.5);
+  }
+
+  .advice {
+    /*background: rgba(255,255,255,0.5);*/
+    background: linear-gradient(to bottom right, rgba(255,99,71,0.25) 50%, rgba(127,255,212,0.25) 50%);
+    padding: 10px 0;
+  }
+
+  h2#page-title {
+    font-size: 18px;
+    padding: 0 50px;
+  }
+  h4 {
+    clear: both;
+  }
+
+  form.inputBox {
+    margin: 10px auto;
+  }
+
+  #street1, #street2 {
+    width: 100%;
+    margin: 0;
+    padding: 10px 50px;
+    border: none;
+    border-radius: 0;
+    background: rgba(255,255,255,0.5);
+    font-weight: 600;
+    text-align: center;
+  }
+  #street1:focus, #street2:focus {
+    background: rgba(255,255,255,1);
+    outline: none;
+    border: 0;
+  }
+  #street1 {
+    border-bottom: 1px dotted #000;
+  }
+  label {
+    display: none;
+  }
+  ::-webkit-input-placeholder {
+    color: rgba(0,0,0,0.25);
+    font-weight: 400;
+    text-align: center;
+  }
+  input.button {
+    width: 35%;
+    border-radius: 0;
+    float: right;
+    /*background: rgba(70,130,180,0.3);*/
+    background: linear-gradient(to bottom right, rgba(70,130,180, 0.1) 50%, rgba(255,215,0, 0.5) 50%);
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+  }
+  input.button:hover {
+    background: linear-gradient(to bottom right, rgba(70,130,180, 0.1) 50%, rgba(255,215,0, 0.5) 50%);
+  }
+  input.button {
+    outline: none;
+  }
+  
+  /* Prevents window from expanding along with animated triangles */
+  #schedule {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .piece {
+    width: 100%;
+    height: 175px;
+    margin: 1px auto;
+    padding: 0 20px;
+    border-radius: 0;
+    border: none;
+  }
+
 }
 

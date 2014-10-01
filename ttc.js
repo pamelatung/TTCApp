@@ -25,6 +25,7 @@ ttcApp.getWeather = function() {
 }; // END .getWeather function
 
 ttcApp.getVehicle = function(street1, street2) {
+
 	$.ajax({
 	    url: 'http://myttc.ca/vehicles/near/' + street1 + '_' + street2 + '.json',
 	    type: 'GET',
@@ -122,14 +123,6 @@ ttcApp.timeProp = function(data) {
 		ttcApp.sortResults('eta', data);
 }
 
-ttcApp.distanceProp = function(data) {
-	$.each(data, function(i, piece) {
-		piece.distanceNum = Math.round(piece.distance);
-	});
-
-	ttcApp.sortResults('distance', data);
-}
-
 // FUNCTION CODE TO SORT THE TIME (CALLED IN ttcApp.timeProp)
 ttcApp.sortResults = function (prop, arr) {
     prop = prop.split('.');
@@ -150,12 +143,11 @@ ttcApp.sortResults = function (prop, arr) {
 };
 
 ttcApp.parseData = function(data) {
-	// console.log(data);
-	// ttcApp.distanceProp(data); // calling the time/sort function
-	ttcApp.timeProp(data);
-	console.log(data); // logging the ttc data following timeProp function
 
 	$.each(data, function(i, piece) {
+
+		ttcApp.timeProp(data);
+		console.log(data); // logging the ttc data following timeProp function
 
 		var distanceNum = Math.round(piece.distance);
 		var velocityNum = Math.round(piece.velocity);
@@ -164,7 +156,7 @@ ttcApp.parseData = function(data) {
 		var distance = $('<p>').addClass('ttcInfo').text('Distance from you: ' + distanceNum + ' m');
 		var velocity = $('<p>').addClass('ttcInfo').text('Speed: ' + velocityNum + ' km/h');
 		var time = $('<p>').addClass('ttcInfo').text('Arrival: ' + piece.eta + ' minutes');
-		var info = $('<div>').addClass('piece').append(vehicle, time, distance, velocity);
+		var info = $('<div>').addClass('piece').addClass('piece' + i).append(vehicle, time, distance, velocity);
 
 		var tri1 = $('<div>').addClass('tri1');
 		var tri2 = $('<div>').addClass('tri2');
@@ -183,13 +175,16 @@ ttcApp.parseData = function(data) {
 
 		var type = piece.type;
 		// CONDITIONAL STATEMENTS - VEHICLE TYPE
+
+		console.log("Type is: " + type);
 		if (type === "CLRV" || type === "ALRV") {
-			$('.piece').addClass('streetcar');
+			$('.piece' + i).addClass('streetcar');
 		} else if (type === "6carHT") {
-			$('.piece').addClass('subway');
+			$('.piece' + i).addClass('subway');
 		} else if (type === "LF" || type === "Lift") {
-			$('.piece').addClass('bus');
+			$('.piece' + i).addClass('bus');
 		}; // END CONDITIONAL STATEMENTS - VEHICLE TYPE
+
 	}); // end each loop
 
 }; // end .parseData function
